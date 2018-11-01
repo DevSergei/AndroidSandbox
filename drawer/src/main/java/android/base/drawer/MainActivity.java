@@ -3,6 +3,7 @@ package android.base.drawer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -86,34 +87,36 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        ItemFragment fragment = null;
+        Fragment fragment = null;
         PlusOneFragment chatFragment = null;
         Class fragmentClass = null;
 
         if (id == R.id.nav_list) {
             fragmentClass = ItemFragment.class;
+            try {
+                fragment = (ItemFragment) fragmentClass.newInstance();
+                fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
         } else if (id == R.id.nav_manage) {
             fragmentClass = PlusOneFragment.class;
+            try {
+                fragment = (PlusOneFragment) fragmentClass.newInstance();
+                fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+
         } else if (id == R.id.nav_feedback) {
 
         } else if (id == R.id.nav_contact) {
 
         }
-
-        try {
-           if(fragmentClass != null) {
-               fragment = (ItemFragment) fragmentClass.newInstance();
-           }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
-
-        if (fragment == null)
-            return false;
-
-            fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

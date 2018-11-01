@@ -1,1 +1,1 @@
-include ':drawer'
+include ':drawer', ':sensors', ':service'
